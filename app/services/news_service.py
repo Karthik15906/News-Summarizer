@@ -19,4 +19,18 @@ async def get_news(topic : str):
         response = await client.get(url,params=params)
 
     # Converts JSON into a Python dictionary.
-    return response.json()
+    data = response.json()
+
+    articles = data['articles']
+
+    result = []
+    for article in articles:
+        result.append(
+            {
+                'title' : article['title'],
+                'description' : article['description'],
+                'url' : article['url']
+            }
+        )
+
+    return result
