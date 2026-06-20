@@ -3,9 +3,17 @@ from app.services.news_service import get_news_text, get_news
 from typing import List
 from app.schemas.news import Article
 from app.services.gemini_service import summarizer
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware ,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
 
 @app.get('/')
 def home():

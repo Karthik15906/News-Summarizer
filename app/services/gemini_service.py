@@ -8,7 +8,6 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-model = genai.GenerativeModel('gemini-2.5-flash')
 
 async def summarizer(text: str):
     prompt = f"""
@@ -16,12 +15,18 @@ async def summarizer(text: str):
     Analyze the following news articles.
     provide: Executive mini summary
     keep the response concise
+    Provide a plain text executive summary.
+    Do not use markdown.
     Articles:
 
     {text}
     """
+    try:
+        model = genai.GenerativeModel('gemini-2.5-flash')
 
-    response = model.generate_content(prompt)
-    # model.generate_content(prompt) returns a response object, not a plain string
-    
-    return response.text # extracting only the generated text and returning it as a normal Python string.
+        response = model.generate_content(prompt)
+        # model.generate_content(prompt) returns a response object, not a plain string
+
+        return response.text # extracting only the generated text and returning it as a normal Python string.
+    except Exception as e:
+        return f"Error:{str(e)}"
