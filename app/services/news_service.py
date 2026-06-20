@@ -19,7 +19,7 @@ async def get_news(topic : str):
     }
 
     '''incase of nework failure like newsapi is down then it could 
-    throw a exception to handle it we use try and except'''
+    throw a exception, to handle it we use try and except'''
 
     try :
         async with httpx.AsyncClient() as client:
