@@ -12,8 +12,10 @@ async def get_news(topic : str):
 
     # Query parameters.
     params = {
-        'q': topic,
-        'apikey':API_KEY
+        'qInTitle':topic,
+        'language':'en',
+        'sortby':'publishedAt',
+        'apiKey':API_KEY
     }
 
     '''incase of nework failure like newsapi is down then it could 
@@ -69,11 +71,7 @@ async def get_news_text(topic: str):
     
     articles = await get_news(topic)
 
-    combined_text = ""
-
-    for article in articles[:3]:
-
-        combined_text += f"""
-        Title : {article['title']}
-        """
-    return combined_text
+    titles = '\n'.join(
+        article['title'] for article in articles[:5]
+    )
+    return titles

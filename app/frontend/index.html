@@ -10,8 +10,14 @@
   <body>
     <div class="container">
     <h1>AI News Summarizer</h1>
+    <div class="search-box">
     <input type="text" id="topic" placeholder="Enter topic" />
     <button id="generate">Generate Summary</button>
+    <div id="loading" class="hidden">
+          <div class="loader"></div>
+      Generating summary....
+    </div>
+    </div>
     <div id="summary"></div>
     <script src="script.js"></script>
     </div>

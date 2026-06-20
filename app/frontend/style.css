@@ -15,20 +15,82 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+.search-box {
+  display: flex;
+  gap: 10px;
+}
 h1 {
   text-align: center;
   color: #333;
 }
 input {
-  width: 300px;
-  padding: 10px;
+  width: 75%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
+/* HTML: <div class="loader"></div> */
+#loading {
+  display: flex;
+  align-items: center;
+
+  margin-left: 20px;
+  gap: 16px;
+}
+.hidden {
+  display: none !important;
+}
+#loading span {
+  font-size: 16px;
+  color: #444;
+  white-space: nowrap;
+}
+
+.loader {
+  --d: 14px;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+  color: #2563eb;
+
+  box-shadow:
+    calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
+    calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px,
+    calc(0 * var(--d)) calc(1 * var(--d)) 0 2px,
+    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
+    calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px,
+    calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px,
+    calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+
+  animation: spin-loader 1s infinite steps(8);
+}
+
+@keyframes spin-loader {
+  100% {
+    transform: rotate(1turn);
+  }
+}
 button {
-  padding: 10px;
+  padding: 12px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
 }
-
+button:hover {
+  background-color: #1d4ed8;
+}
 #summary {
-  margin-top: 20px;
+  margin-top: 25px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  line-height: 1.6;
   white-space: pre-wrap;
 }

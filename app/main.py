@@ -41,7 +41,7 @@ async def test_gemini():
 async def news_summary(topic : str):
 
     news_text = await get_news_text(topic)
-
+    print(news_text[:1000])
     summary = await summarizer(news_text)
     return {
         'topic':topic,
