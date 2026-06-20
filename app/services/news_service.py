@@ -15,9 +15,18 @@ async def get_news(topic : str):
         'q': topic,
         'apikey':API_KEY
     }
-    async with httpx.AsyncClient() as client:
-        # actual API call.
-        response = await client.get(url,params=params)
+
+    '''incase of nework failure like newsapi is down then it could 
+    throw a exception to handle it we use try and except'''
+    try :
+        async with httpx.AsyncClient() as client:
+            # actual API call.
+            response = await client.get(url,params=params)
+    except Exception:
+        raise HTTPException(
+            status_code=500, # http = 500 = internal server error
+            detail = 'unable to connect to news api'
+        )
 
     # handles cases which are not ok http code = 200 = ok
     if response.status_code!=200:
