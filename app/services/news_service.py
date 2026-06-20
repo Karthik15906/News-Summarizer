@@ -18,17 +18,24 @@ async def get_news(topic : str):
 
     '''incase of nework failure like newsapi is down then it could 
     throw a exception to handle it we use try and except'''
+
     try :
         async with httpx.AsyncClient() as client:
             # actual API call.
             response = await client.get(url,params=params)
     except Exception:
         raise HTTPException(
-            status_code=500, # http = 500 = internal server error
+            status_code=500, # http status code = 500 = internal server error
             detail = 'unable to connect to news api'
         )
 
-    # handles cases which are not ok http code = 200 = ok
+    if response.status_code==401:
+        # http status code = 401 = Unauthorized
+        raise HTTPException(
+            status_code=401,
+            detail='Invalid api key'
+        )
+    # handles cases which are not ok http status code = 200 = ok
     if response.status_code!=200:
         raise HTTPException(
             status_code=response.status_code,
@@ -41,7 +48,7 @@ async def get_news(topic : str):
     articles = data['articles']
 
     # if no article is returned then the artcles list is empty to handle 
-    # http code = 404 = not found
+    # http status code = 404 = not found
     if not articles:
         raise HTTPException(
             status_code=404,
@@ -52,10 +59,21 @@ async def get_news(topic : str):
     for article in articles:
         result.append(
             {
-                'title' : article['title'],
-                'description' : article['description'],
-                'url' : article['url']
+                'title' : article['title']
             }
         )
 
     return result
+
+async def get_news_text(topic: str):
+    
+    articles = await get_news(topic)
+
+    combined_text = ""
+
+    for article in articles[:3]:
+
+        combined_text += f"""
+        Title : {article['title']}
+        """
+    return combined_text
