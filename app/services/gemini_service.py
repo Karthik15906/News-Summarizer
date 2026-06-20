@@ -22,5 +22,6 @@ async def summarizer(text: str):
     """
 
     response = model.generate_content(prompt)
-
-    return response.text
+    # model.generate_content(prompt) returns a response object, not a plain string
+    
+    return response.text # extracting only the generated text and returning it as a normal Python string.

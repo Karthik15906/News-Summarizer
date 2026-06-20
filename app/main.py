@@ -3,7 +3,6 @@ from app.services.news_service import get_news_text, get_news
 from typing import List
 from app.schemas.news import Article
 from app.services.gemini_service import summarizer
-import time
 
 app = FastAPI()
 
@@ -33,15 +32,10 @@ async def test_gemini():
 @app.get('/news-summary')
 async def news_summary(topic : str):
 
-    start = time.time()
     news_text = await get_news_text(topic)
-    news_time = time.time()
+
     summary = await summarizer(news_text)
-    gemini_time = time.time()
     return {
         'topic':topic,
         'summary':summary,
-        'news_fetch_time' :news_time - start ,
-        'gemini_time': gemini_time - news_time,
-        'total_time' : gemini_time - start
     }
